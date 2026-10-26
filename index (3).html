@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmad Muchaimin | Portofolio</title>
+<meta name="description" content="Portofolio Ahmad Muchaimin - Lulusan baru SMK Rekayasa Perangkat Lunak.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#12161c; --bg2:#1b2129; --card:#222a34; --text:#eef1f5; --muted:#a6afbb;
+  --gold:#d9bf7a; --gold2:#f3dc9b; --pink:#ff5d8f; --cyan:#3de0ff; --violet:#8b6bff; --green:#4be3a4;
+  --radius:20px;
+}
+body.light{ --bg:#f6f4ee; --bg2:#ffffff; --card:#ffffff; --text:#1c222a; --muted:#5d6672; }
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;transition:background .4s,color .4s}
+a{color:inherit;text-decoration:none}
+section{padding:100px 8%;position:relative}
+canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+main,header,footer{position:relative;z-index:1}
+.glow{position:fixed;width:380px;height:380px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(217,191,122,.22),transparent 65%);transform:translate(-50%,-50%);transition:opacity .3s}
+
+/* progress bar */
+#scrollbar{position:fixed;top:0;left:0;height:4px;width:0;z-index:200;background:linear-gradient(90deg,var(--gold),var(--pink),var(--cyan))}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
+  padding:16px 8%;backdrop-filter:blur(14px);background:rgba(18,22,28,.55);border-bottom:1px solid rgba(217,191,122,.15)}
+body.light nav{background:rgba(246,244,238,.7)}
+.logo{font-family:'Space Grotesk';font-weight:700;font-size:1.4rem;color:var(--gold)}
+.logo span{color:var(--pink)}
+.links{display:flex;gap:26px;align-items:center}
+.links a{font-size:.9rem;font-weight:500;position:relative;padding:4px 0}
+.links a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--gold);transition:.3s}
+.links a:hover::after{width:100%}
+.toggle{cursor:pointer;border:2px solid var(--gold);background:transparent;color:var(--gold);width:40px;height:40px;border-radius:50%;font-size:1.1rem}
+.burger{display:none;font-size:1.6rem;cursor:pointer;background:none;border:0;color:var(--gold)}
+
+/* HERO */
+#home{min-height:100vh;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;padding-top:120px}
+.hello{display:inline-block;padding:8px 18px;border-radius:50px;background:rgba(217,191,122,.15);border:1px solid var(--gold);color:var(--gold2);font-size:.85rem;margin-bottom:20px;animation:pulse 2.5s infinite}
+h1{font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.05;font-weight:800;font-family:'Space Grotesk'}
+h1 .grad{background:linear-gradient(90deg,var(--gold),var(--pink),var(--cyan),var(--gold));background-size:300% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+.typing{font-size:clamp(1.1rem,2.6vw,1.7rem);margin:18px 0;color:var(--muted);min-height:2.2rem}
+.typing b{color:var(--gold2)}
+.cursor{display:inline-block;width:3px;height:1.2em;background:var(--gold);margin-left:3px;vertical-align:middle;animation:blink 1s infinite}
+.hero p.desc{color:var(--muted);max-width:560px;line-height:1.8;margin-bottom:30px}
+.btns{display:flex;gap:16px;flex-wrap:wrap}
+.btn{padding:14px 30px;border-radius:50px;font-weight:600;font-size:.95rem;cursor:pointer;border:2px solid var(--gold);transition:.3s;display:inline-flex;gap:8px;align-items:center}
+.btn.primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1b2129;box-shadow:0 10px 30px rgba(217,191,122,.35)}
+.btn.primary:hover{transform:translateY(-4px) scale(1.04)}
+.btn.ghost{color:var(--gold)}
+.btn.ghost:hover{background:var(--gold);color:#1b2129;transform:translateY(-4px)}
+.socials{display:flex;gap:14px;margin-top:34px}
+.socials a{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--card);border:1px solid rgba(217,191,122,.3);font-size:1.2rem;transition:.3s}
+.socials a:hover{background:var(--gold);transform:translateY(-6px) rotate(8deg)}
+
+.photo-wrap{position:relative;display:grid;place-items:center;height:480px}
+.photo{width:290px;height:390px;border-radius:145px 145px 28px 28px;position:relative;z-index:2;
+  background:linear-gradient(135deg,var(--gold),var(--pink),var(--cyan),var(--violet),var(--gold));background-size:300% 300%;padding:8px;
+  animation:shine 6s linear infinite,bob 5s ease-in-out infinite;box-shadow:0 25px 60px rgba(0,0,0,.45),0 0 40px rgba(217,191,122,.25)}
+.photo .inner{width:100%;height:100%;border-radius:137px 137px 20px 20px;background:#e4002b;overflow:hidden;display:grid;place-items:center}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.photo .initial{font-size:5rem;font-weight:800;color:#fff;font-family:'Space Grotesk'}
+.orbit{position:absolute;width:470px;height:470px;border:2px dashed rgba(217,191,122,.4);border-radius:50%;animation:spin 20s linear infinite}
+.orbit i{position:absolute;font-style:normal;width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:1.5rem;background:var(--card);box-shadow:0 8px 25px rgba(0,0,0,.35)}
+.orbit i:nth-child(1){top:-27px;left:50%;margin-left:-27px}
+.orbit i:nth-child(2){bottom:20px;right:20px}
+.orbit i:nth-child(3){bottom:20px;left:20px}
+.orbit i:nth-child(4){top:50%;right:-27px}
+
+/* floating shapes */
+.shape{position:absolute;opacity:.5;animation:float 7s ease-in-out infinite;z-index:0}
+.s1{top:15%;left:3%;width:60px;height:60px;border-radius:14px;background:var(--pink);transform:rotate(20deg)}
+.s2{top:70%;left:45%;width:40px;height:40px;border-radius:50%;background:var(--cyan);animation-delay:1s}
+.s3{top:20%;right:6%;width:0;height:0;border-left:30px solid transparent;border-right:30px solid transparent;border-bottom:52px solid var(--violet);animation-delay:2s}
+.s4{bottom:10%;right:12%;width:34px;height:34px;border:6px solid var(--gold);border-radius:50%;animation-delay:3s}
+
+/* MARQUEE */
+.marquee{overflow:hidden;background:linear-gradient(90deg,var(--gold),var(--gold2));color:#1b2129;padding:16px 0;transform:rotate(-1.2deg);margin:0 -2%;position:relative;z-index:2;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.marquee div{display:flex;gap:50px;white-space:nowrap;width:max-content;animation:scroll 22s linear infinite;font-weight:700;font-size:1.1rem}
+
+/* titles */
+.title{text-align:center;margin-bottom:60px}
+.title small{color:var(--pink);font-weight:600;letter-spacing:3px;text-transform:uppercase;font-size:.8rem}
+.title h2{font-size:clamp(2rem,4.5vw,3rem);font-family:'Space Grotesk';margin-top:8px}
+.title h2 span{color:var(--gold)}
+.title .bar{width:90px;height:5px;border-radius:5px;margin:16px auto 0;background:linear-gradient(90deg,var(--gold),var(--pink),var(--cyan))}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.about p{color:var(--muted);line-height:1.9;margin-bottom:18px}
+.about p b{color:var(--gold2)}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.info div{background:var(--card);border-radius:16px;padding:18px;border-left:5px solid var(--gold);transition:.3s}
+.info div:nth-child(2){border-color:var(--pink)}
+.info div:nth-child(3){border-color:var(--cyan)}
+.info div:nth-child(4){border-color:var(--green)}
+.info div:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:0 14px 30px rgba(0,0,0,.3)}
+.info small{color:var(--muted);font-size:.75rem;display:block;margin-bottom:4px}
+.info b{font-size:.95rem}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding-top:40px}
+.stat{background:var(--card);border-radius:var(--radius);padding:30px 20px;text-align:center;position:relative;overflow:hidden;transition:.4s}
+.stat::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(217,191,122,.18),transparent);opacity:0;transition:.4s}
+.stat:hover::before{opacity:1}
+.stat:hover{transform:translateY(-8px)}
+.stat .ico{font-size:2rem}
+.stat h3{font-size:2.5rem;color:var(--gold);font-family:'Space Grotesk'}
+.stat p{color:var(--muted);font-size:.9rem}
+
+/* SKILLS */
+.skills{display:grid;grid-template-columns:1fr 1fr;gap:50px}
+.skill{margin-bottom:26px}
+.skill .top{display:flex;justify-content:space-between;margin-bottom:8px;font-weight:600}
+.track{height:14px;background:var(--card);border-radius:20px;overflow:hidden}
+.fill{height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,var(--gold),var(--pink),var(--cyan));background-size:200%;transition:width 1.6s cubic-bezier(.2,.8,.2,1);animation:shine 4s linear infinite}
+.chips{display:flex;flex-wrap:wrap;gap:12px;align-content:flex-start}
+.chip{padding:12px 20px;border-radius:50px;background:var(--card);border:1px solid rgba(217,191,122,.3);font-weight:500;font-size:.9rem;transition:.3s;cursor:default}
+.chip:hover{background:var(--gold);color:#1b2129;transform:translateY(-6px) rotate(-3deg) scale(1.08)}
+
+/* TIMELINE */
+.timeline{max-width:850px;margin:auto;position:relative}
+.timeline::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:4px;transform:translateX(-50%);background:linear-gradient(var(--gold),var(--pink),var(--cyan));border-radius:4px}
+.item{width:50%;padding:0 40px 40px;position:relative}
+.item:nth-child(even){margin-left:50%}
+.item .box{background:var(--card);border-radius:var(--radius);padding:24px;position:relative;transition:.4s}
+.item .box:hover{transform:scale(1.04);box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.item::after{content:"";position:absolute;top:30px;right:-11px;width:22px;height:22px;border-radius:50%;background:var(--gold);border:5px solid var(--bg);box-shadow:0 0 0 4px rgba(217,191,122,.35)}
+.item:nth-child(even)::after{right:auto;left:-11px;background:var(--pink)}
+.year{display:inline-block;padding:4px 14px;border-radius:30px;background:rgba(217,191,122,.18);color:var(--gold2);font-size:.8rem;font-weight:600;margin-bottom:10px}
+.box h3{font-size:1.15rem;margin-bottom:6px}
+.box p{color:var(--muted);font-size:.9rem;line-height:1.7}
+
+/* EXPERIENCE */
+.exp{max-width:900px;margin:auto;background:linear-gradient(135deg,var(--card),var(--bg2));border-radius:28px;padding:40px;border:1px solid rgba(217,191,122,.3);position:relative;overflow:hidden}
+.exp::before{content:"🏥";position:absolute;right:20px;top:0;font-size:9rem;opacity:.07}
+.exp h3{font-size:1.5rem;color:var(--gold)}
+.exp .role{color:var(--pink);font-weight:600;margin:6px 0 20px}
+.exp li{list-style:none;padding:14px 16px 14px 50px;margin-bottom:12px;background:rgba(255,255,255,.04);border-radius:14px;position:relative;color:var(--muted);line-height:1.7;transition:.3s}
+.exp li::before{content:"✔";position:absolute;left:16px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:var(--green);color:#10151b;font-size:.75rem;display:grid;place-items:center}
+.exp li:hover{transform:translateX(10px);background:rgba(217,191,122,.12)}
+
+/* PROJECTS */
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
+.project{border-radius:var(--radius);overflow:hidden;background:var(--card);transition:.4s;cursor:pointer;position:relative}
+.project:hover{transform:translateY(-12px) rotate(1deg);box-shadow:0 22px 45px rgba(0,0,0,.4)}
+.project .thumb{height:170px;display:grid;place-items:center;font-size:4rem;position:relative;overflow:hidden}
+.project:nth-child(1) .thumb{background:linear-gradient(135deg,#ff5d8f,#8b6bff)}
+.project:nth-child(2) .thumb{background:linear-gradient(135deg,#3de0ff,#4be3a4)}
+.project:nth-child(3) .thumb{background:linear-gradient(135deg,#d9bf7a,#ff5d8f)}
+.project:nth-child(4) .thumb{background:linear-gradient(135deg,#8b6bff,#3de0ff)}
+.project .thumb span{transition:.5s}
+.project:hover .thumb span{transform:scale(1.4) rotate(12deg)}
+.project .body{padding:22px}
+.project h3{margin-bottom:8px}
+.project p{color:var(--muted);font-size:.88rem;line-height:1.7;margin-bottom:14px}
+.tag{display:inline-block;font-size:.72rem;padding:4px 12px;border-radius:20px;background:rgba(217,191,122,.16);color:var(--gold2);margin:0 6px 6px 0}
+
+/* CONTACT */
+.contact{display:grid;grid-template-columns:1fr 1.2fr;gap:40px}
+.cbox{display:flex;gap:18px;align-items:center;background:var(--card);padding:20px;border-radius:18px;margin-bottom:18px;transition:.3s}
+.cbox:hover{transform:translateX(12px);background:rgba(217,191,122,.12)}
+.cbox .i{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:1.5rem;background:linear-gradient(135deg,var(--gold),var(--pink));flex:none}
+.cbox small{color:var(--muted);display:block}
+.cbox b{font-size:.95rem;word-break:break-all}
+form{background:var(--card);padding:34px;border-radius:24px;display:flex;flex-direction:column;gap:16px}
+input,textarea{width:100%;padding:15px 18px;border-radius:14px;border:2px solid transparent;background:var(--bg);color:var(--text);font-family:inherit;font-size:.95rem;outline:none;transition:.3s}
+input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(217,191,122,.15)}
+textarea{min-height:130px;resize:vertical}
+
+footer{text-align:center;padding:40px 8%;border-top:1px solid rgba(217,191,122,.2);color:var(--muted);font-size:.9rem}
+footer b{color:var(--gold)}
+#top{position:fixed;right:24px;bottom:24px;width:50px;height:50px;border-radius:50%;border:0;cursor:pointer;z-index:150;background:linear-gradient(135deg,var(--gold),var(--pink));color:#1b2129;font-size:1.3rem;opacity:0;pointer-events:none;transition:.3s;box-shadow:0 8px 25px rgba(0,0,0,.4)}
+#top.show{opacity:1;pointer-events:auto}
+#top:hover{transform:translateY(-6px)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(50px);transition:1s cubic-bezier(.2,.8,.2,1)}
+.reveal.left{transform:translateX(-60px)}
+.reveal.right{transform:translateX(60px)}
+.reveal.show{opacity:1;transform:none}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bob{50%{transform:translateY(-14px)}}
+@keyframes float{50%{transform:translateY(-30px) rotate(25deg)}}
+@keyframes shine{to{background-position:300% center}}
+@keyframes blink{50%{opacity:0}}
+@keyframes scroll{to{transform:translateX(-50%)}}
+@keyframes pulse{50%{box-shadow:0 0 0 12px rgba(217,191,122,0)} 0%{box-shadow:0 0 0 0 rgba(217,191,122,.5)}}
+
+@media(max-width:900px){
+  section{padding:80px 6%}
+  #home,.about,.skills,.contact{grid-template-columns:1fr}
+  #home{text-align:center}
+  .btns,.socials{justify-content:center}
+  .hero p.desc{margin-inline:auto}
+  .photo-wrap{height:400px;order:-1}
+  .photo{width:230px;height:310px;border-radius:115px 115px 24px 24px}
+  .photo .inner{border-radius:107px 107px 18px 18px}
+  .orbit{width:360px;height:360px}
+  .stats{grid-template-columns:1fr 1fr}
+  .timeline::before{left:20px}
+  .item,.item:nth-child(even){width:100%;margin-left:0;padding:0 0 30px 55px}
+  .item::after,.item:nth-child(even)::after{left:9px;right:auto}
+  .burger{display:block}
+  .links{position:fixed;top:68px;right:-100%;flex-direction:column;background:var(--bg2);width:70%;height:calc(100vh - 68px);padding:40px;transition:.4s;align-items:flex-start}
+  .links.open{right:0}
+}
+</style>
+</head>
+<body>
+<div id="scrollbar"></div>
+<div class="glow" id="glow"></div>
+<canvas id="bg"></canvas>
+
+<nav>
+  <a href="#home" class="logo">Muchaimin<span>.</span></a>
+  <div class="links" id="links">
+    <a href="#home">Beranda</a>
+    <a href="#about">Tentang</a>
+    <a href="#skills">Kemampuan</a>
+    <!-- <a href="#education">Pendidikan</a> -->
+    <a href="#experience">Pengalaman</a>
+    <a href="#projects">Proyek</a>
+    <a href="#contact">Kontak</a>
+    <button class="toggle" id="theme" title="Ganti tema">🌙</button>
+  </div>
+  <button class="burger" id="burger">☰</button>
+</nav>
+
+<main>
+<!-- HERO -->
+<section id="home">
+  <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div><div class="shape s4"></div>
+  <div class="hero reveal left">
+    <span class="hello">👋 Halo, selamat datang di portofolio saya!</span>
+    <h1>Saya <span class="grad">Ahmad Muchaimin</span></h1>
+    <div class="typing"><b id="type"></b><span class="cursor"></span></div>
+    <p class="desc">Siswa SMK jurusan Rekayasa Perangkat Lunak (RPL) yang punya minat besar di dunia teknologi dan pengembangan perangkat lunak. Disiplin, bertanggung jawab, dan selalu haus belajar hal baru.</p>
+    <div class="btns">
+      <a href="#projects" class="btn primary">🚀 Lihat Proyek</a>
+      <a href="#contact" class="btn ghost">💬 Hubungi Saya</a>
+    </div>
+    <div class="socials">
+      <a href="https://instagram.com/lek.minn" target="_blank" title="Instagram">📸</a>
+      <a href="https://wa.me/628141049158" target="_blank" title="WhatsApp">📱</a>
+      <a href="mailto:ahmadmuchaimin111@gmail.com" title="Email">✉️</a>
+    </div>
+  </div>
+  <div class="photo-wrap reveal right">
+    <div class="orbit"><i>💻</i><i>🎬</i><i>📊</i><i>⚙️</i></div>
+    <div class="photo"><div class="inner">
+      <!-- Ganti foto.jpg dengan foto kamu (taruh di folder yang sama dengan file ini) -->
+      <img src="foto.jpeg" alt="Foto Ahmad Muchaimin" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <span class="initial" style="display:none">AM</span>
+    </div></div>
+  </div>
+</section>
+
+<div class="marquee"><div>
+  <span>💻 Pemrograman</span><span>✨</span><span>🎬 Editing Video</span><span>✨</span><span>🖼️ Editing Foto</span><span>✨</span><span>⚙️ Pengoperasian Software</span><span>✨</span><span>📊 Data Keuangan</span><span>✨</span><span>🚀 Siap Berkembang</span><span>✨</span>
+  <span>💻 Pemrograman</span><span>✨</span><span>🎬 Editing Video</span><span>✨</span><span>🖼️ Editing Foto</span><span>✨</span><span>⚙️ Pengoperasian Software</span><span>✨</span><span>📊 Data Keuangan</span><span>✨</span><span>🚀 Siap Berkembang</span><span>✨</span>
+</div></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="title reveal"><small>Kenalan Dulu</small><h2>Tentang <span>Saya</span></h2><div class="bar"></div></div>
+  <div class="about">
+    <div class="reveal left">
+      <p>Saya merupakan <b>siswa SMK jurusan Rekayasa Perangkat Lunak (RPL)</b> yang memiliki minat dalam bidang teknologi dan pengembangan perangkat lunak.</p>
+      <p>Saya adalah pribadi yang <b>disiplin, bertanggung jawab,</b> mampu bekerja sama dalam tim, serta memiliki kemauan untuk terus belajar dan mengembangkan keterampilan.</p>
+      <p>Saya juga memiliki beberapa hobi, yaitu menjelajahi alam, hiking, tracking, dan memiliki minat pada bidang esport</p>
+      <a class="btn primary" href="#contact">🤝 Ayo Berkolaborasi</a>
+    </div>
+    <div class="info reveal right">
+      <div><small>🎂 Tempat / Tanggal Lahir</small><b>Pandeglang, 17 Agustus 2008</b></div>
+      <div><small>🙋 Jenis Kelamin</small><b>Laki-Laki</b></div>
+      <div><small>💍 Status</small><b>Belum menikah</b></div>
+      <div><small>🇮🇩 Kewarganegaraan</small><b>Indonesia</b></div>
+      <div style="grid-column:1/-1"><small>📍 Domisili</small><b>Wanaherang, Gn. Putri, Kab. Bogor</b></div>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat reveal"><div class="ico">🎓</div><h3 data-count="3">0</h3><p>Jenjang Pendidikan</p></div>
+    <div class="stat reveal"><div class="ico">💼</div><h3 data-count="1">0</h3><p>Pengalaman Kerja</p></div>
+    <div class="stat reveal"><div class="ico">🛠️</div><h3 data-count="3">0</h3><p>Keahlian Utama</p></div>
+    <div class="stat reveal"><div class="ico">🔥</div><h3 data-count="100" data-suffix="%">0</h3><p>Semangat Belajar</p></div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="title reveal"><small>Apa yang Bisa Saya Lakukan</small><h2>Ke<span>mampuan</span></h2><div class="bar"></div></div>
+  <div class="skills">
+    <div class="reveal left">
+      <div class="skill"><div class="top"><span>💻 Pemrograman (Coding)</span><span>80%</span></div><div class="track"><div class="fill" data-w="80"></div></div></div>
+      <div class="skill"><div class="top"><span>⚙️ Pengoperasian Software</span><span>85%</span></div><div class="track"><div class="fill" data-w="85"></div></div></div>
+      <div class="skill"><div class="top"><span>🎬 Editing Foto & Video</span><span>78%</span></div><div class="track"><div class="fill" data-w="78"></div></div></div>
+      <div class="skill"><div class="top"><span>🗂️ Administrasi & Pengarsipan</span><span>82%</span></div><div class="track"><div class="fill" data-w="82"></div></div></div>
+      <div class="skill"><div class="top"><span>🤝 Kerja Sama Tim</span><span>90%</span></div><div class="track"><div class="fill" data-w="90"></div></div></div>
+    </div>
+    <div class="chips reveal right">
+      <span class="chip">🌐 HTML</span><span class="chip">🎨 CSS</span><span class="chip">⚡ JavaScript</span>
+      <span class="chip">🐘 PHP</span><span class="chip">🗄️ MySQL</span><span class="chip">🧩 Git</span>
+      <span class="chip">📝 Microsoft Office</span><span class="chip">🎞️ Video Editing</span><span class="chip">🖼️ Photo Editing</span>
+      <span class="chip">⏰ Disiplin</span><span class="chip">🧠 Cepat Belajar</span><span class="chip">🛡️ Bertanggung Jawab</span>
+      <span class="chip">👥 Teamwork</span><span class="chip">🎯 Teliti</span>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<!-- <section id="education">
+  <div class="title reveal"><small>Perjalanan Belajar</small><h2>Pendi<span>dikan</span></h2><div class="bar"></div></div>
+  <div class="timeline">
+    <div class="item reveal left"><div class="box"><span class="year">2015 – 2021</span><h3>🏫 MI Nurul Huda</h3><p>Pendidikan dasar (Madrasah Ibtidaiyah) sebagai fondasi awal belajar.</p></div></div>
+    <div class="item reveal right"><div class="box"><span class="year">2021 – 2024</span><h3>🕌 Pondok Pesantren Daarul Mughni</h3><p>Menempa kedisiplinan, kemandirian, dan karakter selama di pesantren.</p></div></div>
+    <div class="item reveal left"><div class="box"><span class="year">2024 – 2027</span><h3>💻 SMK Bina Mandiri Multimedia</h3><p>Jurusan Rekayasa Perangkat Lunak (RPL). Mempelajari pemrograman dan pengembangan software.</p></div></div>
+  </div>
+</section> -->
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="title reveal"><small>Jam Terbang</small><h2>Pengalaman <span>Kerja</span></h2><div class="bar"></div></div>
+  <div class="exp reveal">
+    <h3>Rumah Sakit Harapan Mulia</h3>
+    <div class="role">📁 Staf Keuangan / Administrasi</div>
+    <ul>
+      <li>Mengelola dan memperbarui data keuangan rumah sakit.</li>
+      <li>Memeriksa serta memastikan ketepatan data yang telah tersedia.</li>
+      <li>Membantu pengarsipan dan pengorganisasian dokumen keuangan.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="title reveal"><small>Karya Saya</small><h2>Proyek <span>Pilihan</span></h2><div class="bar"></div></div>
+  <div class="projects">
+    <!-- <div class="project reveal"><div class="thumb"><span>🌐</span></div><div class="body"><h3>Website Portofolio</h3><p>Website pribadi interaktif untuk memperkenalkan profil, kemampuan, dan pengalaman.</p><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div></div> -->
+    <div class="project reveal"><div class="thumb"><span>🎬</span></div><div class="body"><h3>Editing Video</h3><p>Proyek penyuntingan video kreatif untuk konten sekolah dan media sosial.</p><span class="tag">Video</span><span class="tag">Kreatif</span></div></div>
+    <div class="project reveal"><div class="thumb"><span>🖼️</span></div><div class="body"><h3>Desain & Edit Foto</h3><p>Pengolahan foto dan desain visual untuk poster dan konten digital.</p><span class="tag">Foto</span><span class="tag">Desain</span></div></div>
+    <div class="project reveal"><div class="thumb"><span>📊</span></div><div class="body"><h3>Aplikasi Data Keuangan</h3><p>Ide proyek sistem pencatatan keuangan sederhana berbasis web.</p><span class="tag">Web</span><span class="tag">Database</span></div></div>
+  </div>
+  <!-- Tips: ganti judul & deskripsi proyek di atas dengan karya asli kamu -->
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="title reveal"><small>Mari Terhubung</small><h2>Hubungi <span>Saya</span></h2><div class="bar"></div></div>
+  <div class="contact">
+    <div class="reveal left">
+      <a class="cbox" href="https://wa.me/628141049158" target="_blank"><div class="i">📞</div><div><small>WhatsApp / Telepon</small><b>+62 814-1049-6158</b></div></a>
+      <a class="cbox" href="mailto:ahmadmuchaimin111@gmail.com"><div class="i">✉️</div><div><small>Email</small><b>ahmadmuchaimin111@gmail.com</b></div></a>
+      <a class="cbox" href="https://instagram.com/lek.minn" target="_blank"><div class="i">📸</div><div><small>Instagram</small><b>@lek.minn</b></div></a>
+      <div class="cbox"><div class="i">📍</div><div><small>Alamat</small><b>Wanaherang, Gn. Putri, Kab. Bogor</b></div></div>
+    </div>
+    <form class="reveal right" id="form">
+      <input type="text" id="nama" placeholder="👤 Nama kamu" required>
+      <input type="email" id="mail" placeholder="📧 Email kamu" required>
+      <textarea id="pesan" placeholder="💬 Tulis pesan di sini..." required></textarea>
+      <button class="btn primary" type="submit" style="justify-content:center">📨 Kirim via WhatsApp</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>© <span id="year"></span> <b>Ahmad Muchaimin</b> — Dibuat dengan ❤️ dan HTML, CSS & JavaScript</footer>
+<button id="top">↑</button>
+
+<script>
+// Typing effect
+const words=["Lulusan Baru SMK 🎓","Siswa Rekayasa Perangkat Lunak 💻","Calon Software Developer 🚀","Kreator Foto & Video 🎬"];
+let w=0,c=0,del=false;const el=document.getElementById('type');
+(function type(){
+  const t=words[w];
+  el.textContent=del?t.slice(0,c--):t.slice(0,c++);
+  let s=del?45:90;
+  if(!del&&c>t.length){del=true;s=1400}
+  else if(del&&c<0){del=false;w=(w+1)%words.length;c=0;s=300}
+  setTimeout(type,s);
+})();
+
+// Reveal + skill bars + counters
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  e.target.classList.add('show');
+  e.target.querySelectorAll?.('.fill').forEach(f=>f.style.width=f.dataset.w+'%');
+  const h=e.target.querySelector?.('[data-count]');
+  if(h&&!h.done){h.done=true;const to=+h.dataset.count,suf=h.dataset.suffix||'';let n=0;
+    const step=Math.max(1,Math.ceil(to/40));
+    const t=setInterval(()=>{n=Math.min(to,n+step);h.textContent=n+suf;if(n>=to)clearInterval(t)},40)}
+  io.unobserve(e.target);
+}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+
+// Scroll progress + back to top
+const bar=document.getElementById('scrollbar'),topBtn=document.getElementById('top');
+addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  topBtn.classList.toggle('show',h.scrollTop>500);
+});
+topBtn.onclick=()=>scrollTo({top:0,behavior:'smooth'});
+
+// Cursor glow
+const glow=document.getElementById('glow');
+addEventListener('mousemove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'});
+
+// Theme
+const tb=document.getElementById('theme');
+tb.onclick=()=>{document.body.classList.toggle('light');tb.textContent=document.body.classList.contains('light')?'☀️':'🌙'};
+
+// Mobile menu
+const links=document.getElementById('links');
+document.getElementById('burger').onclick=()=>links.classList.toggle('open');
+links.querySelectorAll('a').forEach(a=>a.onclick=()=>links.classList.remove('open'));
+
+// WhatsApp form
+document.getElementById('form').onsubmit=e=>{
+  e.preventDefault();
+  const m=`Halo Ahmad, saya ${nama.value} (${mail.value}).%0A%0A${encodeURIComponent(pesan.value)}`;
+  open(`https://wa.me/628141049158?text=${m}`,'_blank');
+};
+document.getElementById('year').textContent=new Date().getFullYear();
+
+// Particle background
+const cv=document.getElementById('bg'),ctx=cv.getContext('2d');
+let P=[],mouse={x:-999,y:-999};
+function size(){cv.width=innerWidth;cv.height=innerHeight;
+  P=Array.from({length:Math.min(90,Math.floor(innerWidth/16))},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.6,vy:(Math.random()-.5)*.6,r:Math.random()*2.2+.8}))}
+size();addEventListener('resize',size);
+addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});
+(function draw(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  P.forEach((p,i)=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>cv.width)p.vx*=-1;
+    if(p.y<0||p.y>cv.height)p.vy*=-1;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fillStyle='rgba(217,191,122,.7)';ctx.fill();
+    for(let j=i+1;j<P.length;j++){
+      const q=P[j],d=Math.hypot(p.x-q.x,p.y-q.y);
+      if(d<120){ctx.strokeStyle=`rgba(217,191,122,${.18*(1-d/120)})`;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke()}
+    }
+    const dm=Math.hypot(p.x-mouse.x,p.y-mouse.y);
+    if(dm<150){ctx.strokeStyle=`rgba(255,93,143,${.5*(1-dm/150)})`;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(mouse.x,mouse.y);ctx.stroke()}
+  });
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
